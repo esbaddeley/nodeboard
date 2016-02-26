@@ -13,4 +13,17 @@ router.get('/', function(req, res, next) {
   });
 });
 
+router.get('/:id', function(req, res, next){
+  Task.findById(req.params.id, function(err, task){
+    if (err) {
+      res.json({'ERROR': err});
+    } else {
+      res.json(task);
+    }
+  });
+});
+
+
+
+
 module.exports = router;
