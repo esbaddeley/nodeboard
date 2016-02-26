@@ -39,7 +39,7 @@ router.post('/', function(req, res, next){
 });
 
 router.patch('/:id', function(req, res, next){
-  Task.findByIdAndUpdate({id: req.params.id}, {$set: req.body}, {new: true}, function (err, task){
+  Task.findByIdAndUpdate(req.params.id, {$set: req.body}, {new: true}, function (err, task){
     if (err) {
       res.status(400).json({'ERROR' : err});
     } else {
@@ -49,7 +49,7 @@ router.patch('/:id', function(req, res, next){
 });
 
 router.delete('/:id', function(req, res, next){
-  Task.remove(req.params.id, function(err, task) {
+  Task.remove({id: req.params.id}, function(err, task) {
     if (err) {
       res.status(404).json({'ERROR' : err});
     } else {
