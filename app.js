@@ -14,14 +14,12 @@ var config = require('./_config');
 
 
 
-mongoose.connect(config.mongoURI[app.settings.env], function(err, res) {
+mongoose.connect( (process.env.MONGOLAB_URI || config.mongoURI[app.settings.env]), function(err, res) {
   if(err) {
     console.log('Error connecting to the database. ' + err);
-    } else {
+  } else {
     console.log('Connected to the Database: ' + config.mongoURI[app.settings.env]);
     }
-
-
 });
 
 
