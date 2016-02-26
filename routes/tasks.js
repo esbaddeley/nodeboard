@@ -49,7 +49,7 @@ router.patch('/:id', function(req, res, next){
 });
 
 router.delete('/:id', function(req, res, next){
-  Task.remove({id: req.params.id}, function(err, task) {
+  Task.remove({ _id: req.params.id}, function(err, task) {
     if (err) {
       res.status(404).json({'ERROR' : err});
     } else {
