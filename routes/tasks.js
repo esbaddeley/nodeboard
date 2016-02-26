@@ -23,7 +23,20 @@ router.get('/:id', function(req, res, next){
   });
 });
 
-
+router.post('/', function(req, res, next){
+  var newTask = new Task({
+    title: req.body.title,
+    dueDate: new Date(req.body.dueDate),
+    importance: req.body.importance
+  });
+  newTask.save(function(err){
+    if(err) {
+      res.status(400).json({'ERROR' : err});
+    } else {
+      res.status(201).json({'CREATED' : newTask});
+    }
+  });
+});
 
 
 module.exports = router;

@@ -98,8 +98,25 @@ describe ('Task', function() {
       });
   });
 
-  it ('responds with json including the added object when there is a POST request to "/tasks" ', function(){
-
+  it ('responds with json including the added object when there is a POST request to "/tasks" ', function(done){
+    chai.request(server)
+      .post('/tasks')
+      .send({title: "Polish our dinosaur's scales", dueDate: '2016, 02, 29', importance: 1})
+      .end(function(err, res){
+        res.should.be.json;
+        res.body.should.be.a('object');
+        res.body.should.have.property('CREATED');
+        res.body.CREATED.should.be.a('object');
+        res.body.CREATED.should.have.property('_id');
+        res.body.CREATED.should.have.property('title');
+        res.body.CREATED.title.should.equal("Polish our dinosaur's scales");
+        res.body.CREATED.should.have.property('dueDate');
+        res.body.CREATED.should.have.property('importance');
+        res.body.CREATED.importance.should.equal(1);
+        res.body.CREATED.should.have.property('completed');
+        res.body.CREATED.completed.should.equal(false);
+        done();
+      });
   });
 
   it ('responds with json including the object when there is a POST request to "/tasks/:id" where the object returned is the object', function(){
