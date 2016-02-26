@@ -119,10 +119,50 @@ describe ('Task', function() {
       });
   });
 
-  it ('responds with json including the object when there is a POST request to "/tasks/:id" where the object returned is the object', function(){
-
+  it ('PATCH request changes the object', function(done){
+    chai.request(server)
+    .patch('/tasks/' + anotherNewTaskId)
+    .send({title: "Tickle the dinosaur"})
+    .end(function(err, res){
+      res.should.have.status(201);
+      res.should.be.json;
+      res.body.should.be.a('object');
+      res.body.should.have.property('_id');
+      res.body.should.have.property('title');
+      res.body.title.should.equal('Tickle the dinosaur');
+      res.body.should.have.property('created');
+      res.body.created.should.equal(createdDate.toISOString());
+      res.body.should.have.property('dueDate');
+      res.body.dueDate.should.equal(dueDate.toISOString());
+      res.body.should.have.property('importance');
+      res.body.importance.should.equal(2);
+      res.body.should.have.property('completed');
+      res.body.completed.should.equal(false);
+      done();
+    });
   });
 
-  // it (PATCH request to 'tasks/:id' changes the object)
-  // it (DELETE request to 'tasks/:id' deletes the object )
+  it ('DELETE request deletes the right object', function(done) {
+    chai.request(server)
+    .delete('/tasks/' + anotherNewTaskId)
+    .end(function(err, res) {
+      res.should.have.status(204);
+      res.body.should.be.empty;
+      done();
+    });
+  });
+
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
